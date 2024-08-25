@@ -19,11 +19,11 @@ function SiderBar() {
               <i className="fa-solid fa-house"></i> GestionBooks
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/GestionTransfert">
               <i className="fa-solid fa-money-check-dollar"></i> GestionTransfert 
             </Link>
-          </li>
+          </li> */}
           {/* <li>
             <Link to="#">
               <i className="fa-solid fa-cart-shopping"></i> Mes Demandes

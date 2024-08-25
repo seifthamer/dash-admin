@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import '../CSS/Tabl.css';
+import axios from 'axios'
+
 function GestionLibrairie() {
-
-
+  const [users , setUsers] = useState();
+  useEffect(()=>{
+    const getAllUsers = async()=>{
+      try {
+        const res = await axios.get('http://localhost:5000/user/all');
+        console.log(res.data.filter(user => user.role === 'client'))
+        setUsers(res.data.filter(user => user.role === 'librairie'))
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getAllUsers();
+  },[])
+const deleteLib = async(id)=>{
+  try {
+    const res = await axios.delete(`/deleteusers/:id`);
+  } catch (error) {
+    console.log(error)
+  }
+}
   return (
     <div className="content-container">
       <div id="app">
@@ -23,25 +43,25 @@ function GestionLibrairie() {
                   <table className="table" id="table1">
                     <thead>
                       <tr>
-                        <th>Nom</th>
-                        <th>Description</th>
-                        <th>Adresse</th>
-                        <th>Num Tel</th>
+                      <th>Nom</th>
+                        <th>role</th>
                         <th>Email</th>
-                        <th>Nb Produit</th>
+                        <th>modifier</th>
+                        <th>supprimer</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                    {users?.map((item)=>(
+                        <tr>
                         <td>
-                         Darsoufa 
+                         {item.name} 
                         </td>
-                        <td>Desc</td>
-                        <td>Mahdia</td>
-                        <td>96 256 478 </td>
-                        <td>Dorsaf@gmail.com</td>
-                        <td>Produit</td>
+                        <td>{item.role}</td>
+                        <td>{item.email}</td>
+                        <td><button>edit</button> </td>
+                        <td><button onClick={()=>deleteLib(item._id)}>delete</button></td>
                       </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>

@@ -7,14 +7,18 @@ import GestionUser from "./component/Dashboard/GestionUser";
 import GestionTransfert from "./component/Dashboard/GestionTransfert";
 import GestionBooks from "./component/Dashboard/GestionBooks";
 import SiderBar from "./component/Navbar/SiderBar";
-
+import Login from "./component/Dashboard/Login";
+import Cookies from 'js-cookie'
 function App() {
+  const token = Cookies.get('token')
   return (
     <Router>
-      <div>
+      {token?(
+        <div>
         <SiderBar/>
         <div id="content" style={{ marginLeft: "250px", padding: "20px"  }}>
           <Routes>
+          
             <Route path="/GestionLibrairie" element={<GestionLibrairie />} />
             <Route path="/GestionBooks" element={<GestionBooks />} />
             <Route path="/GestionTransfert" element={<GestionTransfert />} />
@@ -22,6 +26,10 @@ function App() {
           </Routes>
         </div>
       </div>
+      ):(
+        <Login/>
+      )}
+      
     </Router>
   );
 }

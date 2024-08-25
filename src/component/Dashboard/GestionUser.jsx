@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import '../CSS/Tabl.css';
-
+import axios from 'axios'
 function GestionUser() {
-
+  const [users , setUsers] = useState();
+useEffect(()=>{
+  const getAllUsers = async()=>{
+    try {
+      const res = await axios.get('http://localhost:5000/user/all');
+      console.log(res.data.filter(user => user.role === 'client'))
+      setUsers(res.data.filter(user => user.role === 'client'))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  getAllUsers();
+},[])
 
   return (
     <div className="content-container">
@@ -25,22 +37,25 @@ function GestionUser() {
                     <thead>
                       <tr>
                         <th>Nom</th>
-                        <th>Prenom</th>
+                        <th>role</th>
                         <th>Email</th>
-                        <th>Password</th>
-                        <th>Nb Produit</th>
+                        <th>modifier</th>
+                        <th>supprimer</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      {users?.map((item)=>(
+                        <tr>
                         <td>
-                         Darsoufa 
+                         {item.name} 
                         </td>
-                        <td>Desc</td>
-                        <td>Mahdia</td>
-                        <td>96 256 478 </td>
-                        <td>Produit</td>
+                        <td>{item.role}</td>
+                        <td>{item.email}</td>
+                        <td><button>edit</button> </td>
+                        <td><button>delete</button></td>
                       </tr>
+                      ))}
+                      
                     </tbody>
                   </table>
                 </div>

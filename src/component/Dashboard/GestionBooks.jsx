@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import '../CSS/Tabl.css';
-
+import axios from 'axios'
 function GestionBooks() {
-
+  const [offre , setOffre] = useState();
+useEffect(()=>{
+  const getAllUsers = async()=>{
+    try {
+      const res = await axios.get('http://localhost:5000/product');
+      console.log(res.data)
+      setOffre(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  getAllUsers();
+},[])
 
   return (
     <div className="content-container">
@@ -27,21 +39,24 @@ function GestionBooks() {
                         <th>Nom</th>
                         <th>Description</th>
                         <th>Prix</th>
-                        <th>Stock</th>
-                        <th>User</th>
+                        <th>communauté</th>
+                        <th>status</th>
                        
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      {offre?.map((item)=>(
+                        <tr>
                         <td>
-                         Darsoufa 
+                         {item.nom} 
                         </td>
-                        <td>Desc</td>
-                        <td>69 dt</td>
-                        <td>69000 </td>
-                        <td>user</td>
+                        <td>{item.description}</td>
+                        <td>{item.prix}dt</td>
+                        <td>{item.communauté} </td>
+                        <td>{item.status}</td>
                       </tr>
+                      ))}
+                      
                     </tbody>
                   </table>
                 </div>
